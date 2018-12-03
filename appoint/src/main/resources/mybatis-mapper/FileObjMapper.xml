@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loskatt.appoint.mapper.FileObjMapper">
+
+    <resultMap id="baseResultMap" type="com.loskatt.appoint.model.FileObj">
+        <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result column="file_name" property="fileName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="format" property="format" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="file_size" property="fileSize" javaType="java.lang.Long" jdbcType="BIGINT"></result>
+        <result column="file_path" property="filePath" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="file_url" property="fileUrl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+    </resultMap>
+
+    <select id="selectById" resultMap="baseResultMap">
+        SELECT * FROM t_file WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.loskatt.appoint.model.FileObj" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+           file_name,
+           format,
+           file_size,
+           file_path,
+           file_url,
+           create_time
+        </trim>
+        <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+           #{fileName},
+           #{format},
+           #{fileSize},
+           #{filePath},
+           #{fileUrl},
+           NOW()
+        </trim>
+    </insert>
+</mapper>

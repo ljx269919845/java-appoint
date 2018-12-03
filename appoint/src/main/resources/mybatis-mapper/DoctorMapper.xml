@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loskatt.appoint.mapper.DoctorMapper">
+
+    <sql id="baseColumnSql">
+        id as doctor_id, doctor_name,  professional,doctor_bref,doctor_img,doctor_age,doctor_sex,doctor_phone,depart_id, status, create_time
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.loskatt.appoint.model.Doctor">
+        <id column="doctor_id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result column="doctor_name" property="doctorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="professional" property="professional" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="doctor_bref" property="doctorBref" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="doctor_img" property="doctorImg" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="doctor_age" property="doctorAge" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="doctor_sex" property="doctorSex" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="doctor_phone" property="doctorPhone" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="depart_id" property="departId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
+        <result column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+    </resultMap>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+          <include refid="baseColumnSql"/>
+        FROM t_doctor
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getDoctorList" resultMap="baseResultMap">
+        SELECT
+          <include refid="baseColumnSql"/>
+        FROM t_doctor
+        WHERE 1 = 1 
+        <if test="doctorSearch.departId != null and doctorSearch.departId > 0">
+                and depart_id = #{doctorSearch.departId},
+        </if>
+        <if test="doctorSearch.status != null">
+                and status = #{doctorSearch.status},
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.loskatt.appoint.model.Doctor" flushCache="true">
+        UPDATE t_doctor
+        <set>
+            <if test="doctorName != null and doctorName != ''">
+                doctor_name = #{doctorName},
+            </if>
+            <if test="professional != null">
+                professional = #{professional},
+            </if>
+            <if test="doctorBref != null">
+                doctor_bref = #{doctorBref},
+            </if>
+            <if test="doctorImg != null">
+                doctor_img = #{doctorImg},
+            </if>
+            <if test="doctorAge != null">
+                doctor_age = #{doctorAge},
+            </if>
+            <if test="doctorSex != null">
+                doctor_sex = #{doctorSex},
+            </if>
+            <if test="doctorPhone != null">
+                doctor_phone = #{doctorPhone},
+            </if>
+            <if test="departId != null">
+                depart_id = #{departId},
+            </if>
+                update_time = NOW(),
+            <if test="status != null ">
+                status = #{status},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <update id="updateStatus">
+        UPDATE t_doctor
+        <set>
+             status = #{status}
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_doctor
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.loskatt.appoint.model.Doctor" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_doctor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+           doctor_name,
+           professional,
+           doctor_bref,
+           doctor_img,
+           doctor_age,
+           doctor_sex,
+           doctor_phone,
+           depart_id,
+           status,
+           update_time,
+           create_time
+        </trim>
+        <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+           #{doctorName},
+           #{professional},
+           #{doctorBref},
+           #{doctorImg},
+           #{doctorAge},
+           #{doctorSex},
+           #{doctorPhone},
+           #{departId},
+           #{status},
+           NOW(),
+           NOW()
+        </trim>
+    </insert>
+</mapper>

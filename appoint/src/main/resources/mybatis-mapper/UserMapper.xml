@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loskatt.appoint.mapper.UserMapper">
+
+    <sql id="baseColumnSql">
+        id, user_name,  user_day, user_age,user_sex,user_phone,open_id,update_time, create_time
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.loskatt.appoint.model.User">
+        <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result column="user_name" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="user_day" property="userDay" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="user_age" property="userAge" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="user_sex" property="userSex" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="user_phone" property="userPhone" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="open_id" property="openId" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+    </resultMap>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+          <include refid="baseColumnSql"/>
+        FROM t_user
+        WHERE id = #{id}
+    </select>
+    
+    <select id="selectByOpenId" resultMap="baseResultMap">
+        SELECT
+          <include refid="baseColumnSql"/>
+        FROM t_user
+        WHERE open_id = #{openId}
+    </select>
+    
+     <select id="selectByPhone" resultMap="baseResultMap">
+        SELECT
+          <include refid="baseColumnSql"/>
+        FROM t_user
+        WHERE user_phone = #{userPhone}
+    </select>
+
+    <update id="update" parameterType="com.loskatt.appoint.model.User" flushCache="true">
+        UPDATE t_user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userDay != null">
+                user_day = #{userDay},
+            </if>
+            <if test="userAge != null">
+                user_age = #{userAge},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone},
+            </if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert" parameterType="com.loskatt.appoint.model.User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+           user_name,
+           user_day,
+           user_age,
+           user_sex,
+           user_phone,
+           open_id,
+           update_time,
+           create_time
+        </trim>
+        <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+           #{userName},
+           #{userDay},
+           #{userAge},
+           #{userSex},
+           #{userPhone},
+           #{openId},
+           NOW(),
+           NOW()
+        </trim>
+    </insert>
+</mapper>
