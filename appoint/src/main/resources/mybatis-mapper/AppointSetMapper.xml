@@ -5,7 +5,6 @@
     <resultMap id="BaseResultMap" type="com.loskatt.appoint.model.AppointSet">
         <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
         <result column="doctor_id" property="doctorId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
-        <result column="depart_id" property="departId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
         <result column="time_frame" property="timeFrame" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="user_num" property="userNum" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="surplus_num" property="surplusNum" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -52,7 +51,6 @@
     <insert id="insertSetting" parameterType="com.loskatt.appoint.model.AppointSet" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO t_appoint_setting
         <trim prefix="(" suffix=")" suffixOverrides=",">
-           depart_id,
            doctor_id,
            time_frame,
            user_num,
@@ -62,7 +60,6 @@
            create_time
         </trim>
         <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
-           #{departId},
            #{doctorId},
            #{timeFrame},
            #{userNum},
@@ -78,9 +75,6 @@
         <set>
             <if test="timeFrame != null and timeFrame != ''">
                 time_frame = #{timeFrame},
-            </if>
-            <if test="departId != null">
-                depart_id = #{departId},
             </if>
             <if test="doctorId != null">
                 doctor_id = #{doctorId},
@@ -116,9 +110,9 @@
     </resultMap>
     
     <select id="getAppointSetList" resultMap="AppointSetVOResultMap">
-	   		 select *, dc.id as depart_id, dc.id as doctor_id from t_appoint_setting s
-	   		 left join t_department dp on s.depart_id = dp.id
+	   		 select *, dp.id as depart_id, dc.id as doctor_id from t_appoint_setting s
 	   		 left join t_doctor dc on s.doctor_id = dc.id
+             left join t_department dp on dc.depart_id = dp.id
 		     where 1 = 1 
 		     <if test="appointSearch.status != null">
                 and s.status = #{appointSearch.status}
