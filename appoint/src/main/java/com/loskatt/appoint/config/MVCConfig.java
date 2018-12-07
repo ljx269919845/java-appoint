@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.loskatt.appoint.reslover.CustomerArgumentResolver;
+
+import javax.servlet.MultipartConfigElement;
 
 @Configuration
 public class MVCConfig extends WebMvcConfigurationSupport{
@@ -113,6 +116,13 @@ public class MVCConfig extends WebMvcConfigurationSupport{
         
         //将fastjson添加到视图消息转换器列表内
         converters.add(fastConverter);
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(20L * 1024L * 1024L);
+        return factory.createMultipartConfig();
     }
     
 }

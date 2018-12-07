@@ -16,6 +16,9 @@ import com.loskatt.appoint.service.impl.WechatSupport;
 import com.loskatt.appoint.vo.AppointSearch;
 
 import io.swagger.annotations.ApiOperation;
+
+import java.util.List;
+
 /**
  *   1.移动端用户注册/修改信息
  *   2.在线预约
@@ -82,5 +85,11 @@ public class UserController{
     @ApiOperation(value="根据小程序临时登录凭证code获取登录Token", notes="返回User对象")
     public Result<Long> createAuthenticationToken(String code)throws AuthenticationException {
         return wechatSupport.wechatLogin(code);
+    }
+
+    @RequestMapping(value = "/user/list",method = RequestMethod.GET)
+    @ApiOperation(value="获取用户列表")
+    public Result<List<User>> getUserList(AppointSearch appointSearch){
+        return userService.getUserList(appointSearch);
     }
 }

@@ -92,10 +92,16 @@ public class AppointServiceImpl implements AppointService {
 
 	@Override
 	public Result updateStatus(Long id, Integer status) {
-		if (appointMapper.updateStatus(id,status)>0)
-		return new Result<Integer>(StatusCode.RESULT_SUCCESS);
-		else
-	    return new Result<String>(StatusCode.APPOINT_UPDATE_FAIL);	
+		if (appointMapper.updateStatus(id,status)>0){
+			if(status.equals(0) || status.equals(2)){
+				AppointSet appointSet = appointsetMapper.selectSettingForUpdate(id);
+				appointSet.setSurplusNum(appointSet.getSurplusNum() + 1);
+				appointsetMapper.updateSurplusNum(appointSet);
+			}
+			return new Result<Integer>(StatusCode.RESULT_SUCCESS);
+		} else {
+			return new Result<String>(StatusCode.APPOINT_UPDATE_FAIL);
+		}
 	}
 
 	@Override

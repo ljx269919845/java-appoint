@@ -3,7 +3,7 @@
 <mapper namespace="com.loskatt.appoint.mapper.DoctorMapper">
 
     <sql id="baseColumnSql">
-        id as doctor_id, doctor_name,  professional,doctor_bref,doctor_img,doctor_age,doctor_sex,doctor_phone,depart_id, status, create_time
+        id as doctor_id, doctor_name,  professional,doctor_bref,doctor_img,doctor_age,doctor_sex,doctor_phone,depart_id, status as doctor_status, create_time
     </sql>
 
     <resultMap id="baseResultMap" type="com.loskatt.appoint.model.Doctor">
@@ -16,7 +16,7 @@
         <result column="doctor_sex" property="doctorSex" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="doctor_phone" property="doctorPhone" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="depart_id" property="departId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
-        <result column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="doctor_status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
         <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
     </resultMap>

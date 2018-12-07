@@ -44,10 +44,13 @@
                 and a.appoint_time >= #{appointSearch.timeFrame}
              </if>
              <if test="appointSearch.beginDate != null">
-                and a.create_time >= #{appointSearch.beginDate}
+                and a.appoint_date >= #{appointSearch.beginDate}
              </if>
              <if test="appointSearch.endDate != null ">
-                and a.create_time &lt;= #{appointSearch.endDate}
+                and a.appoint_date &lt;= #{appointSearch.endDate}
+             </if>
+             <if test="appointSearch.searchWord != null">
+                 and (u.user_name LIKE concat(concat('%',#{appointSearch.searchWord}),'%') or u.user_phone LIKE concat(concat('%',#{appointSearch.searchWord}),'%'))
              </if>
 			 order by a.create_time DESC
 	         <if test="appointSearch.pageSize > 0 ">
@@ -88,7 +91,7 @@
            #{doctorId},
            #{userId},
            #{appointDate},
-           #{appointTtime},
+           #{appointTime},
            #{status},
            #{remark},
            NOW(),

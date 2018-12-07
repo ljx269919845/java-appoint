@@ -28,7 +28,8 @@ public enum StatusCode implements GlobalStatusCode{
     APPOINT_SET_UPDATE_FAIL("APPOINT_40000007","修改预约设置信息失败"),
     
     FILE_UPLOAD_FAIL("APPOINT_50000001","文件上传失败"),
-    
+    PARAM_NULL("0000001", "参数异常"),
+    PARAM_LENGTH("0000002", "参数长度异常"),
     UNKNOW_RESULT("99999999", "SYSTEM EXCEPTION");
     
     private String statusCode;

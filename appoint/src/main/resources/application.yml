@@ -1,6 +1,6 @@
 server:
   port: 8087
-  gateway: http://172.16.7.50:8087/appoint/file 
+  gateway: http://172.16.7.174:8087/appoint/file
   filepath: D:/data/file
 spring: 
   application:
@@ -8,9 +8,9 @@ spring:
   datasource: 
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/appoint?characterEncoding=utf8&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
+    url: jdbc:mysql://172.16.2.110:3306/appoint?characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: mpr_ecreader
+    password: mpr_ecreader
     #最大活跃数
     maxActive: 20
     #初始化数量

@@ -3,14 +3,14 @@
 <mapper namespace="com.loskatt.appoint.mapper.DepartMapper">
 
     <sql id="baseColumnSql">
-        id as depart_id, depart_name,  depart_remark, status, create_time
+        id as depart_id, depart_name,  depart_remark, status as depart_status, create_time
     </sql>
 
     <resultMap id="baseResultMap" type="com.loskatt.appoint.model.Depart">
         <id column="depart_id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
         <result column="depart_name" property="departName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="depart_remark" property="departRemark" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="depart_status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
         
     </resultMap>

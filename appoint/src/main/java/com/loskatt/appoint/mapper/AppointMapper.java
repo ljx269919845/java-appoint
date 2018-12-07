@@ -24,7 +24,7 @@ public interface AppointMapper {
      * 
      * @return num > 0 表示已经预约
      */
-    int checkAppointByCondition(Appoint appoint);
+    int checkAppointByCondition(@Param("appoint") Appoint appoint);
     
     /**
      *    *根据预约ID查询预约信息,包括:科室信息、医生信息、用户信息以及预约信息

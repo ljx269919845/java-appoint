@@ -92,6 +92,13 @@
         </set>
         WHERE id = #{id}
     </update>
+    <update id="updateSurplusNum" parameterType="java.lang.Long">
+        update t_appoint_setting
+        <set>
+            surplus_num = #{surplusNum}
+        </set>
+        WHERE id = #{id}
+    </update>
     
     <delete id="deleteSetting" parameterType="java.lang.Long">
         delete from t_appoint_setting WHERE id = #{id}
@@ -110,7 +117,7 @@
     </resultMap>
     
     <select id="getAppointSetList" resultMap="AppointSetVOResultMap">
-	   		 select *, dp.id as depart_id, dc.id as doctor_id from t_appoint_setting s
+	   		 select *, dp.id as depart_id, dp.status as depart_status, dc.id as doctor_id, dc.status as doctor_status from t_appoint_setting s
 	   		 left join t_doctor dc on s.doctor_id = dc.id
              left join t_department dp on dc.depart_id = dp.id
 		     where 1 = 1 

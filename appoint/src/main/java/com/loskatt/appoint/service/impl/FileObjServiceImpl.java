@@ -49,14 +49,15 @@ public class FileObjServiceImpl implements FileObjService{
         Calendar calendar = Calendar.getInstance();
         String pattern = DateFormatUtils.format(calendar, "/yyyy/MM/dd/");
         File dir = new File(filePath+pattern);
-        if(!dir.getParentFile().exists()) {
+        if(!dir.exists()) {
         	dir.mkdirs();
         }
         //将上传的文件写入到服务器端文件内
-        File serverFile = new File(dir.getPath()+"/"+ filename);
+        File serverFile = new File(dir.getAbsolutePath()+"/"+ filename);
         try {
 			file.transferTo(serverFile);
 		} catch (IllegalStateException | IOException e) {
+        	e.printStackTrace();
 			throw new GlobalException(StatusCode.FILE_UPLOAD_FAIL);
 		}
         FileObj fileObj = new FileObj();

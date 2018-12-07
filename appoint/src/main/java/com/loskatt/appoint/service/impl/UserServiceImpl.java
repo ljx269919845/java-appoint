@@ -1,5 +1,6 @@
 package com.loskatt.appoint.service.impl;
 
+import com.loskatt.appoint.vo.AppointSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,9 @@ import com.loskatt.appoint.mapper.UserMapper;
 import com.loskatt.appoint.model.User;
 import com.loskatt.appoint.service.UserService;
 import com.loskatt.appoint.util.Tools;
+
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
 	
@@ -52,4 +56,8 @@ public class UserServiceImpl implements UserService{
 		return new Result<User>(StatusCode.RESULT_SUCCESS,userMapper.selectByOpenId(openId));
 	}
 
+	@Override
+	public Result getUserList(AppointSearch appointSearch){
+		new Result<List<User>>(StatusCode.RESULT_SUCCESS,userMapper.getUserList(appointSearch));
+	}
 }

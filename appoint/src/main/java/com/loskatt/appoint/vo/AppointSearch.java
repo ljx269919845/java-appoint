@@ -24,6 +24,8 @@ public class AppointSearch extends PageSearch{
 
 	private String timeFrame;
 
+	private String searchWord;
+
 
 	public String getAppointDate() {
 		return appointDate;
@@ -107,6 +109,14 @@ public class AppointSearch extends PageSearch{
 
 	public void setTimeFrame(String timeFrame){
 		this.timeFrame = timeFrame;
+	}
+
+	public String getSearchWord() {
+		return searchWord;
+	}
+
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
 	}
 }
 
