@@ -11,7 +11,9 @@ import com.loskatt.appoint.model.User;
 import com.loskatt.appoint.service.UserService;
 import com.loskatt.appoint.util.Tools;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -58,6 +60,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Result getUserList(AppointSearch appointSearch){
-		new Result<List<User>>(StatusCode.RESULT_SUCCESS,userMapper.getUserList(appointSearch));
+		int  count = userMapper.getUserListCount(appointSearch);
+		List<User> users = userMapper.getUserList(appointSearch);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("count", count);
+		dataMap.put("users", users);
+		return new Result(StatusCode.RESULT_SUCCESS, dataMap);
 	}
 }

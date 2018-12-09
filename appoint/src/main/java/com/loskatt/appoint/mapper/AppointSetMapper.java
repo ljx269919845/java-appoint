@@ -38,6 +38,8 @@ public interface AppointSetMapper {
     * @param id
     */
     AppointSet selectSettingForUpdate(Long id);
+
+    AppointSet selectSetting(@Param("doctorId") Long doctorId, @Param("timeFrame") String timeFrame);
     
     
     /**

@@ -7,10 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 public class PageSearch extends BaseObject{
     
     @ApiModelProperty(value = "页码")
-    private int pageIndex;
+    private int pageIndex = 1;
 
     @ApiModelProperty(value = "每页显示数量")
-    private int pageSize;
+    private int pageSize = 20;
     
     @ApiModelProperty(hidden = true)
     private int offset;

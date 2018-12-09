@@ -23,5 +23,6 @@ public interface UserMapper {
 
 	    int insert(User user);
 
-	    List<User> getUserList(AppointSearch appointSearch);
+		List<User> getUserList(AppointSearch appointSearch);
+		int getUserListCount(AppointSearch appointSearch);
 }

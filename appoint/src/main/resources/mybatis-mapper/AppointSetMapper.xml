@@ -17,6 +17,10 @@
             select * from t_appoint_setting where id=#{id} for update
         ]]>
     </select>
+    <select id="selectSetting" resultMap="BaseResultMap">
+            select * from t_appoint_setting where doctor_id=#{doctorId} and time_frame=#{timeFrame} limit 1 for update
+    </select>
+
     <select id="loadSettingForDepart" resultMap="BaseResultMap" parameterType="java.lang.Long">
             select * from t_appoint_setting where depart_id = #{departId} and status = 1
     </select>

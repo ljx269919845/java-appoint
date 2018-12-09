@@ -14,4 +14,6 @@ public interface AppointService {
 	
 	public Result getAppointList(AppointSearch appointSearch);
 	
+	public Result getAppointListCount(AppointSearch appointSearch);
+	
 }

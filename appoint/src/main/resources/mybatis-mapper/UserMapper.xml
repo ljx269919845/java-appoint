@@ -30,18 +30,34 @@
         <include refid="baseColumnSql"/>
         FROM t_user
         WHERE 1=1
-        <if test="searchWord != null">
+        <if test="searchWord != null and searchWord != ''">
             and (user_name LIKE concat(concat('%',#{searchWord}),'%') or user_phone LIKE concat(concat('%',#{searchWord}),'%'))
         </if>
         <if test="beginDate != null">
             and create_time >= #{beginDate}
         </if>
         <if test="endDate != null ">
-            and create_time &lt;= #{.endDate}
+            and create_time &lt;= #{endDate}
         </if>
         order by update_time DESC
         <if test="pageSize > 0 ">
             limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getUserListCount"  resultType="java.lang.Integer">
+    SELECT
+        count(*)
+        FROM t_user
+        WHERE 1=1
+        <if test="searchWord != null and searchWord != ''">
+            and (user_name LIKE concat(concat('%',#{searchWord}),'%') or user_phone LIKE concat(concat('%',#{searchWord}),'%'))
+        </if>
+        <if test="beginDate != null">
+            and create_time >= #{beginDate}
+        </if>
+        <if test="endDate != null ">
+            and create_time &lt;= #{endDate}
         </if>
     </select>
     

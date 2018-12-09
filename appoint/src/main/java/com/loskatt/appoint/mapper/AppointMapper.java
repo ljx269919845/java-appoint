@@ -51,5 +51,6 @@ public interface AppointMapper {
      * @returnList<AppointVO>
      */
     List<AppointVO> getAppointList(@Param("appointSearch") AppointSearch appointSearch);
+    int getAppointListCount(@Param("appointSearch") AppointSearch appointSearch);
     
 }

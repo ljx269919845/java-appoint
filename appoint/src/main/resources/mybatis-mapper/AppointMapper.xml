@@ -41,7 +41,7 @@
                 and a.user_id = #{appointSearch.userId}
              </if>
              <if test="appointSearch.timeFrame != null">
-                and a.appoint_time >= #{appointSearch.timeFrame}
+                and a.appoint_time = #{appointSearch.timeFrame}
              </if>
              <if test="appointSearch.beginDate != null">
                 and a.appoint_date >= #{appointSearch.beginDate}
@@ -56,6 +56,38 @@
 	         <if test="appointSearch.pageSize > 0 ">
 	             limit #{appointSearch.offset},#{appointSearch.pageSize}
 	         </if>
+   </select>
+
+   <select id="getAppointListCount"  resultType="java.lang.Integer">
+	   		 select count(*) from t_appointment a
+	   		 left join t_department dp on a.depart_id = dp.id
+	   		 left join t_doctor dc on a.doctor_id = dc.id
+		     left join t_user u on a.user_id = u.id
+		     where 1 =1 
+		     <if test="appointSearch.status != null">
+                and a.status = #{appointSearch.status}
+             </if>
+			 <if test="appointSearch.departId != null and appointSearch.departId > 0">
+                and a.depart_id = #{appointSearch.departId}
+             </if>
+             <if test="appointSearch.doctorId != null and appointSearch.doctorId > 0">
+                and a.doctor_id = #{appointSearch.doctorId}
+             </if>
+             <if test="appointSearch.userId != null and appointSearch.userId > 0">
+                and a.user_id = #{appointSearch.userId}
+             </if>
+             <if test="appointSearch.timeFrame != null">
+                and a.appoint_time = #{appointSearch.timeFrame}
+             </if>
+             <if test="appointSearch.beginDate != null">
+                and a.appoint_date >= #{appointSearch.beginDate}
+             </if>
+             <if test="appointSearch.endDate != null ">
+                and a.appoint_date &lt;= #{appointSearch.endDate}
+             </if>
+             <if test="appointSearch.searchWord != null">
+                 and (u.user_name LIKE concat(concat('%',#{appointSearch.searchWord}),'%') or u.user_phone LIKE concat(concat('%',#{appointSearch.searchWord}),'%'))
+             </if>
    </select>
    
    <select id="checkAppointByCondition"  resultType="java.lang.Integer">

@@ -18,10 +18,6 @@ public class AppointSearch extends PageSearch{
 
 	private String endDate;
 
-	private Integer pageIndex = 1;
-
-	private Integer pageSize = 20;
-
 	private String timeFrame;
 
 	private String searchWord;
@@ -81,26 +77,6 @@ public class AppointSearch extends PageSearch{
 
 	public String getEndDate(){
 		return endDate;
-	}
-
-	public int getPageIndex(){
-		return this.pageIndex;
-	}
-
-	public int getPageSize(){
-		return this.pageSize;
-	}
-
-	public void setPageIndex(Integer pageIndex){
-		this.pageIndex = pageIndex;
-	}
-
-	public void setPageSize(Integer pageSize){
-		this.pageSize = pageSize;
-	}
-
-	public int getOffset(){
-		return (this.pageIndex - 1) * this.pageSize;
 	}
 
 	public String getTimeFrame(){

@@ -89,7 +89,8 @@ public class UserController{
 
     @RequestMapping(value = "/user/list",method = RequestMethod.GET)
     @ApiOperation(value="获取用户列表")
-    public Result<List<User>> getUserList(AppointSearch appointSearch){
+    public Result getUserList(AppointSearch appointSearch){
+        appointSearch.setPageIndex(appointSearch.getPageIndex());
         return userService.getUserList(appointSearch);
     }
 }

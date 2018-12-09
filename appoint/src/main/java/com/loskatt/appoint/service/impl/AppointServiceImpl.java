@@ -1,6 +1,8 @@
 package com.loskatt.appoint.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -94,7 +96,8 @@ public class AppointServiceImpl implements AppointService {
 	public Result updateStatus(Long id, Integer status) {
 		if (appointMapper.updateStatus(id,status)>0){
 			if(status.equals(0) || status.equals(2)){
-				AppointSet appointSet = appointsetMapper.selectSettingForUpdate(id);
+				AppointVO appoint = appointMapper.selectAppointInfo(id);
+				AppointSet appointSet = appointsetMapper.selectSetting(appoint.getDoctor().getId(), appoint.getAppointTime());
 				appointSet.setSurplusNum(appointSet.getSurplusNum() + 1);
 				appointsetMapper.updateSurplusNum(appointSet);
 			}
@@ -106,7 +109,17 @@ public class AppointServiceImpl implements AppointService {
 
 	@Override
 	public Result getAppointList(AppointSearch appointSearch) {
-		return new Result<List<AppointVO>>(StatusCode.RESULT_SUCCESS,appointMapper.getAppointList(appointSearch));
+		List<AppointVO> data = appointMapper.getAppointList(appointSearch);
+		return new Result(StatusCode.RESULT_SUCCESS, data);
+	}
+
+	public Result getAppointListCount(AppointSearch appointSearch){
+		int count = appointMapper.getAppointListCount(appointSearch);
+		List<AppointVO> data = appointMapper.getAppointList(appointSearch);
+		Map<String, Object> resultData = new HashMap();
+		resultData.put("count", count);
+		resultData.put("appoint", data);
+		return new Result(StatusCode.RESULT_SUCCESS, resultData);
 	}
 
 }

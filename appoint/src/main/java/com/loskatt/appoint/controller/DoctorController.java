@@ -67,7 +67,7 @@ public class DoctorController{
     @RequestMapping(value = "/doctor/appoint/list",method = RequestMethod.GET)
     @ApiOperation(value="医生获取预约列表", notes="根据条件过滤")
     public Result getAppointList(AppointSearch appointSearch){
-        return appointService.getAppointList(appointSearch);
+        return appointService.getAppointListCount(appointSearch);
     }
     
 }
