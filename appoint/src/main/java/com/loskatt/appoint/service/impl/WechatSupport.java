@@ -48,14 +48,14 @@ public class WechatSupport {
     	    throw new GlobalException(StatusCode.USER_AUTH_WX_DATA_ERROR);
         }
         String wxOpenId = response.getOpenid();
-        wxOpenId="test";
+        //wxOpenId="test";
         //String wxSessionKey = response.getSessionKey();
         User userDB = userMapper.selectByOpenId(wxOpenId);
         if (null == userDB) {
         	User user = new User();
             user.setOpenId(wxOpenId);
-            user.setUserName("init");
-            user.setUserPhone("00000");
+           // user.setUserName("init");
+           /// user.setUserPhone("00000");
         	userMapper.insert(user);
         	return new Result<User>(StatusCode.RESULT_SUCCESS,user);
         }else {
@@ -79,8 +79,10 @@ public class WechatSupport {
         try {
             res = reader.readValue(response);
         } catch (IOException e) {
+            e.printStackTrace();
             res = null;
         }
+        LOGGER.info(response);
 /*        LOGGER.info(response);
         if (null == res) {
         	throw new GlobalException(StatusCode.USER_AUTH_WX_ERROR);

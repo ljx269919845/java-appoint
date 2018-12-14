@@ -1,8 +1,8 @@
 server:
   port: 8087
-  gateway: http://127.0.0.1:8087/appoint/file
-  filepath: D:/data/file
-  debug: true
+  gateway: http://www.loskatt.xyz/appoint/file
+  filepath: /data/img
+  debug: false
 spring: 
   application:
     name: '@project.artifactId@'
@@ -10,8 +10,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/appoint?characterEncoding=utf8&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
+    username: devuser
+    password: dT88Rqvn
     #最大活跃数
     maxActive: 20
     #初始化数量

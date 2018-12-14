@@ -31,9 +31,11 @@ public class MVCConfig extends WebMvcConfigurationSupport{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //registry.addResourceHandler("/loskatt/resources/**").addResourceLocations("classpath:/static/imgs/");
-    	registry.addResourceHandler("/appoint/file/**").addResourceLocations("file:D:\\data\\file\\");
+    	registry.addResourceHandler("/appoint/file/**").addResourceLocations("file:/data/img/");
     	registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/backend/**").addResourceLocations("file:/data/html/");
     }
     
     /**    
@@ -43,6 +45,8 @@ public class MVCConfig extends WebMvcConfigurationSupport{
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/appoint/file/html/").setViewName("forward:/appoint/file/html/index.html");
+        registry.addViewController("/backend/").setViewName("forward:/backend/index.html");
     }
     
     /**
@@ -124,5 +128,4 @@ public class MVCConfig extends WebMvcConfigurationSupport{
         factory.setMaxFileSize(20L * 1024L * 1024L);
         return factory.createMultipartConfig();
     }
-    
 }
