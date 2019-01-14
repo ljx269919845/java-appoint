@@ -26,6 +26,7 @@ public enum StatusCode implements GlobalStatusCode{
     APPOINT_SURPLUS_NUM_NOT_ENOUGH("APPOINT_40000005","余号不足,无法预约"),
     APPOINT_SET_ADD_FAIL("APPOINT_40000006","新增预约配置信息异常"),
     APPOINT_SET_UPDATE_FAIL("APPOINT_40000007","修改预约设置信息失败"),
+    APPOINT_TIME_FRAME_NOT("APPOINT_40000008","已超过可约时间,请预约明天的号"),
     
     FILE_UPLOAD_FAIL("APPOINT_50000001","文件上传失败"),
     PARAM_NULL("0000001", "参数异常"),

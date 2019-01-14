@@ -1,5 +1,6 @@
 package com.loskatt.appoint.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.loskatt.appoint.common.GlobalException;
@@ -22,6 +24,7 @@ import com.loskatt.appoint.model.Appoint;
 import com.loskatt.appoint.model.AppointSet;
 import com.loskatt.appoint.model.User;
 import com.loskatt.appoint.service.AppointService;
+import com.loskatt.appoint.util.Tools;
 import com.loskatt.appoint.vo.AppointSearch;
 import com.loskatt.appoint.vo.AppointVO;
 @Service
@@ -37,6 +40,9 @@ public class AppointServiceImpl implements AppointService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Value("${appoint.hour}")
+	private Integer appointHour;
 
 	/**
 	 *  1.查询预约设置，锁行
@@ -46,7 +52,7 @@ public class AppointServiceImpl implements AppointService {
 	 */
 	@Override
 	@Transactional(rollbackOn=Exception.class)
-	public Result appoint(Long settingId,Appoint appoint) {
+	public Result appoint(Long settingId,Appoint appoint,String dateFrame) {
 		long time = System.currentTimeMillis();
 		LOGGER.info("[lock] start. time: {}", time);
 		User user = userMapper.select(appoint.getUserId());
@@ -66,6 +72,15 @@ public class AppointServiceImpl implements AppointService {
 			throw new GlobalException(StatusCode.APPOINT_SURPLUS_NUM_NOT_ENOUGH);
 		}
 		//判断预约设置是否可用
+		if(appointSet.getStatus().equals(0)) {
+			throw new GlobalException(StatusCode.APPOINT_SET_NOT_EXIST);
+		}
+		//判断是否超过可预约的时间范围:比如过了17点不能预约当天的号，只能预约明天的号
+		// Date pdate = Tools.ExcepDate(dateFrame,appointHour,0,0);
+		// if(pdate==null||pdate.compareTo(new Date())<0) {
+		// 	throw new GlobalException(StatusCode.APPOINT_TIME_FRAME_NOT);
+		// }
+		
 		if(appointSet.getStatus().equals(0)) {
 			throw new GlobalException(StatusCode.APPOINT_SET_NOT_EXIST);
 		}
@@ -97,8 +112,12 @@ public class AppointServiceImpl implements AppointService {
 		if (appointMapper.updateStatus(id,status)>0){
 			if(status.equals(0) || status.equals(2)){
 				AppointVO appoint = appointMapper.selectAppointInfo(id);
-				AppointSet appointSet = appointsetMapper.selectSetting(appoint.getDoctor().getId(), appoint.getAppointTime());
-				appointSet.setSurplusNum(appointSet.getSurplusNum() + 1);
+				AppointSet appointSet = appointsetMapper.selectSetting(appoint.getDoctor().getId(), appoint.getAppointDate(),appoint.getAppointTime());
+				if(appointSet != null && appointSet.getSurplusNum() + 1 > appointSet.getUserNum()){
+					appointSet.setSurplusNum(appointSet.getUserNum());
+				}else if(appointSet != null){
+					appointSet.setSurplusNum(appointSet.getSurplusNum() + 1);
+				}
 				appointsetMapper.updateSurplusNum(appointSet);
 			}
 			return new Result<Integer>(StatusCode.RESULT_SUCCESS);

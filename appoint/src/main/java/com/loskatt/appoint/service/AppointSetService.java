@@ -8,9 +8,9 @@ import com.loskatt.appoint.vo.AppointSearch;
 
 public interface AppointSetService {
 	
-	public Result loadSettingForDepart(Long departId);
+	public Result loadSettingForDepart(Long departId,String dateFrame);
 	
-	public Result loadSettingForDoctor(Long doctorId);
+	public Result loadSettingForDoctor(Long doctorId,String dateFrame);
 	
 	public Result addSetting(AppointSet appointSet);
 	

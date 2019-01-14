@@ -38,3 +38,5 @@ logging:
 mybatis:
   typeAliasesPackage: com.loskatt.appoint.mapper
   mapperLocations: classpath*:mybatis-mapper/**Mapper.xml
+appoint:
+  hour: 17

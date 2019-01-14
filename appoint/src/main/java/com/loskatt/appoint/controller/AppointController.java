@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loskatt.appoint.common.Result;
@@ -24,14 +25,14 @@ public class AppointController{
 
     @RequestMapping(value = "/load/setting/depart/{departId}",method = RequestMethod.GET)
     @ApiOperation(value="根据科室ID加载预约配置记录", notes="统计当前科室已预约人数")
-    public Result loadSettingForDepart(@PathVariable("departId") Long departId){
-        return appointSetService.loadSettingForDepart(departId);
+    public Result loadSettingForDepart(@PathVariable("departId") Long departId,@RequestParam("dateFrame") String dateFrame){
+        return appointSetService.loadSettingForDepart(departId,dateFrame);
     }
     
     @RequestMapping(value = "/load/setting/doctor/{doctorId}",method = RequestMethod.GET)
     @ApiOperation(value="根据医生ID加载预约配置记录", notes="统计当前医生已预约人数")
-    public Result loadSettingForDoctor(@PathVariable("doctorId") Long doctorId){
-        return appointSetService.loadSettingForDoctor(doctorId);
+    public Result loadSettingForDoctor(@PathVariable("doctorId") Long doctorId,@RequestParam("dateFrame") String dateFrame){
+        return appointSetService.loadSettingForDoctor(doctorId,dateFrame);
     }
     
     @RequestMapping(value = "/appoint/setting/add",method = RequestMethod.POST)

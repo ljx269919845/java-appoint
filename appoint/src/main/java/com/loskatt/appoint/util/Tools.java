@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Tools {
 	
 	/**
@@ -74,8 +76,90 @@ public class Tools {
     public static Date dateAdd(Date date,int num){
     	Calendar c = Calendar.getInstance();  
 	    c.setTime(date);  
-	    c.add(Calendar.DAY_OF_MONTH, 1);
+	    c.add(Calendar.DAY_OF_MONTH, num);
 	    return c.getTime();
 	}
     
+
+	public static Date ExcepDate(String dateStr,Integer hour,int min,int sec){
+		if(StringUtils.isBlank(dateStr)){
+			return null;
+		}
+		if(hour==null) {
+			hour = 17;
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		Date date;
+		try {
+			date = sf.parse(dateStr);
+			c.setTime(date);
+			c.set(Calendar.HOUR_OF_DAY, hour);
+			c.set(Calendar.MINUTE, min);
+			c.set(Calendar.SECOND, sec);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return c.getTime();
+	}
+    
+    
+    /**
+	 * 字符串起始日期转Date类型后带时分秒
+	 * @return date
+	 */
+	public static Date SToDS(String dateStr){
+		if(StringUtils.isBlank(dateStr)){
+			return null;
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		Date date;
+		try {
+			date = sf.parse(dateStr);
+			c.setTime(date);
+			c.set(Calendar.HOUR_OF_DAY, 00);
+			c.set(Calendar.MINUTE, 00);
+			c.set(Calendar.SECOND, 00);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return c.getTime();
+	}
+
+	/**
+	 * 字符串截止日期转Date类型后带时分秒
+	 * @return date
+	 */
+	public static Date SToDE(String dateStr){
+		if(StringUtils.isBlank(dateStr)){
+			return null;
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		Date date;
+		try {
+			date = sf.parse(dateStr);
+			c.setTime(date);
+			c.set(Calendar.HOUR_OF_DAY, 23);
+			c.set(Calendar.MINUTE, 59);
+			c.set(Calendar.SECOND, 59);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return c.getTime();
+	}
+    
+	
+	/**
+	 * 返回时间格式：yyyy-MM-dd
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getyyyyMMddTime(Date date){
+		if(date == null)
+			return null;
+		return getDateToStr(date, "yyyy-MM-dd");
+	}
 }

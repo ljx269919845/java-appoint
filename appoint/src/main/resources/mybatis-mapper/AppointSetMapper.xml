@@ -4,7 +4,9 @@
   
     <resultMap id="BaseResultMap" type="com.loskatt.appoint.model.AppointSet">
         <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"></id>
+        <result column="depart_id" property="departId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
         <result column="doctor_id" property="doctorId" javaType="java.lang.Long" jdbcType="BIGINT"></result>
+        <result column="date_frame" property="dateFrame" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="time_frame" property="timeFrame" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="user_num" property="userNum" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="surplus_num" property="surplusNum" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -18,33 +20,41 @@
         ]]>
     </select>
     <select id="selectSetting" resultMap="BaseResultMap">
-            select * from t_appoint_setting where doctor_id=#{doctorId} and time_frame=#{timeFrame} limit 1 for update
+            select * from t_appoint_setting where doctor_id=#{doctorId} and date_frame=#{dateFrame} and time_frame=#{timeFrame} limit 1 for update
     </select>
 
-    <select id="loadSettingForDepart" resultMap="BaseResultMap" parameterType="java.lang.Long">
-            select * from t_appoint_setting where depart_id = #{departId} and status = 1
+    <select id="loadSettingForDepart" resultMap="BaseResultMap">
+            select * from t_appoint_setting where depart_id = #{departId} and date_frame=#{dateFrame} and status = 1
     </select>
     
-    <select id="loadSettingForDoctor" resultMap="BaseResultMap" parameterType="java.lang.Long">
-            select * from t_appoint_setting where doctor_id = #{doctorId} and status = 1
+    <select id="loadSettingForDoctor" resultMap="BaseResultMap">
+            select * from t_appoint_setting where doctor_id = #{doctorId} and date_frame=#{dateFrame} and status = 1
     </select>
     
     <select id="countAppoints" resultType="java.lang.Integer">
-  		 select (sum(ifnull(user_num,0)) - sum(ifnull(surplus_num,0)))  from t_appoint_setting where status = 1
+  		    select (sum(ifnull(user_num,0)) - sum(ifnull(surplus_num,0))) from t_appoint_setting where status = 1
 	       <if test="appointSearch.departId != null and appointSearch.departId > 0">
                and depart_id = #{appointSearch.departId}
            </if>
            <if test="appointSearch.doctorId != null and appointSearch.doctorId > 0">
                and doctor_id = #{appointSearch.doctorId}
            </if>
+           <if test="appointSearch.appointDate != null and appointSearch.appointDate !=''">
+               and date_frame = #{appointSearch.appointDate}
+           </if>
    </select>
    
    <update id="clearSurplus">
         UPDATE t_appoint_setting
         <set>
-             surplus_num = user_num
+             surplus_num = user_num,
+             date_frame = #{newDateFrame}
         </set>
+        where date_frame = #{dateFrame}
    </update>
+    <update id="updateSettingAppointDate">
+        UPDATE t_appoint_setting set date_frame=#{dateFrame}
+    </update>
     <update id="updateStatus">
         UPDATE t_appoint_setting
         <set>
@@ -116,6 +126,7 @@
         <result column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
         <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"></result>
+        <result column="date_frame" property="dateFrame" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="depart" resultMap="com.loskatt.appoint.mapper.DepartMapper.baseResultMap"/>
         <association property="doctor" resultMap="com.loskatt.appoint.mapper.DoctorMapper.baseResultMap"/>
     </resultMap>

@@ -31,12 +31,12 @@ public class AppointSetServiceImpl implements AppointSetService {
 	private AppointSetMapper appointsetMapper;
 
 	@Override
-	public Result loadSettingForDepart(Long departId) {
+	public Result loadSettingForDepart(Long departId,String dateFrame) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		AppointSearch appointSearch = new AppointSearch();
 		appointSearch.setDepartId(departId);
-		appointSearch.setAppointDate(Tools.getDateToStr(Tools.dateAdd(new Date(), 1),"yyyy-MM-dd"));
-		List<AppointSet> settingList = appointsetMapper.loadSettingForDepart(departId);
+		appointSearch.setAppointDate(dateFrame);
+		List<AppointSet> settingList = appointsetMapper.loadSettingForDepart(departId,dateFrame);
 		List<DepartAppointSetVO> appointSetVOLst = new ArrayList<DepartAppointSetVO>();
 		int appointNum = 0;
 		if(settingList!=null && settingList.size()>0) {
@@ -61,12 +61,12 @@ public class AppointSetServiceImpl implements AppointSetService {
 	}
 
 	@Override
-	public Result loadSettingForDoctor(Long doctorId) {
+	public Result loadSettingForDoctor(Long doctorId,String dateFrame) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		AppointSearch appointSearch = new AppointSearch();
 		appointSearch.setDoctorId(doctorId);
-		appointSearch.setAppointDate(Tools.getDateToStr(Tools.dateAdd(new Date(), 1),"yyyy-MM-dd"));
-		List<AppointSet> settingList = appointsetMapper.loadSettingForDoctor(doctorId);
+		appointSearch.setAppointDate(dateFrame);
+		List<AppointSet> settingList = appointsetMapper.loadSettingForDoctor(doctorId,dateFrame);
 		//当前医生第二天所有预约配置记录
 		result.put("appointSetList", settingList);
 		//当前医生第二天已经预约总数

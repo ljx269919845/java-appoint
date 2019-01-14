@@ -6,7 +6,7 @@ import com.loskatt.appoint.vo.AppointSearch;
 
 public interface AppointService {
 	
-	public Result appoint(Long settingId,Appoint appoint);
+	public Result appoint(Long settingId,Appoint appoint,String dateFrame);
 	
 	public Result selectAppointInfo(Long appointId);
 	

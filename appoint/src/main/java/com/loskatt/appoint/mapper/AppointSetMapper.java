@@ -39,7 +39,7 @@ public interface AppointSetMapper {
     */
     AppointSet selectSettingForUpdate(Long id);
 
-    AppointSet selectSetting(@Param("doctorId") Long doctorId, @Param("timeFrame") String timeFrame);
+    AppointSet selectSetting(@Param("doctorId") Long doctorId, @Param("dateFrame") String dateFrame, @Param("timeFrame") String timeFrame);
     
     
     /**
@@ -47,17 +47,19 @@ public interface AppointSetMapper {
    * @param appoint
    */
     int updateSurplusNum(AppointSet appointSet);
+
+    int updateSettingAppointDate(@Param("dateFrame") String dateFrame);
     
     
     /** 根据科室ID获取预约设置记录
    * @param id
    */
-   List<AppointSet> loadSettingForDepart(Long departId);
+   List<AppointSet> loadSettingForDepart(@Param("departId") Long departId,@Param("dateFrame") String dateFrame);
    
    /** 根据医生ID获取预约设置记录
     * @param id
     */
-    List<AppointSet> loadSettingForDoctor(Long doctorId);
+    List<AppointSet> loadSettingForDoctor(@Param("doctorId") Long doctorId,@Param("dateFrame") String dateFrame);
     
     /** 根据条件统计已预约总数
      * @param departId
@@ -68,7 +70,7 @@ public interface AppointSetMapper {
 	  *  *恢复余号量
    * @param appoint
    */
-   void clearSurplus();
+   void clearSurplus(@Param("newDateFrame") String newDateFrame, @Param("dateFrame") String dateFrame);
    
    /** 根据条件复合查询预约配置记录
     * @param departId

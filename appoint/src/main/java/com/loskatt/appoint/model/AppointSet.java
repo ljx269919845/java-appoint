@@ -19,6 +19,9 @@ public class AppointSet{
 	@ApiModelProperty(value = "医生ID",example = "68",required = true)
 	private Long doctorId;
 	@NotBlank
+	@ApiModelProperty(value = "预约日期",example = "2018-12-12",required = true)
+	private String dateFrame;
+	@NotBlank
 	@ApiModelProperty(value = "时间段",example = "08:00-10:00",required = true)
 	private String timeFrame;
 	@NotBlank
@@ -58,6 +61,14 @@ public class AppointSet{
 
 	public void setDoctorId(Long doctorId) {
 		this.doctorId = doctorId;
+	}
+
+	public String getDateFrame() {
+		return dateFrame;
+	}
+
+	public void setDateFrame(String dateFrame) {
+		this.dateFrame = dateFrame;
 	}
 
 	public String getTimeFrame() {

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.loskatt.appoint.common.Result;
 import com.loskatt.appoint.model.Appoint;
@@ -58,9 +59,9 @@ public class UserController{
     }
     
     @RequestMapping(value = "/user/appoint/{settingId}",method = RequestMethod.POST)
-    @ApiOperation(value="在线预约申请", notes="根据前端页面加载的预约设置ID提交预约")
+    @ApiOperation(value="在线预约申请", notes="根据前端页面加载的预约设置ID和日期提交预约")
     public Result appoint(@PathVariable("settingId") Long settingId,@RequestBody Appoint appoint){
-        return appointService.appoint(settingId,appoint);
+        return appointService.appoint(settingId,appoint,appoint.getAppointDate());
     }
     
     @RequestMapping(value = "/user/appoint/{appointId}",method = RequestMethod.GET)
@@ -70,8 +71,8 @@ public class UserController{
     }
     
     @RequestMapping(value = "/user/appoint/{appointId}/{status}",method = RequestMethod.POST)
-    @ApiOperation(value="用户取消预约", notes="用户预约成功后,可在线取消预约，状态status=0")
-    public Result removeAppoint(@PathVariable("appointId") Long appointId,@PathVariable("status") Integer status){
+    @ApiOperation(value="用户取消预约", notes="0:用户预约成功后,用户在线取消预约")
+    public Result updateStatus(@PathVariable("appointId") Long appointId,@PathVariable("status") Integer status){
         return appointService.updateStatus(appointId,status);
     }
     

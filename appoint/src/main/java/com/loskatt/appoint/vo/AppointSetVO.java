@@ -16,6 +16,7 @@ public class AppointSetVO extends BaseObject {
 	private Integer userNum;
 	private Integer surplusNum;
 	private Integer status;
+	private String dateFrame;
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date updateTime;
@@ -76,5 +77,11 @@ public class AppointSetVO extends BaseObject {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getDateFrame(){
+		return dateFrame;
+	}
+	public void setDateFrame(String dateFrame){
+		this.dateFrame = dateFrame;
 	}
 }
